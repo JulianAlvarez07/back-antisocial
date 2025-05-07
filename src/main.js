@@ -1,1 +1,10 @@
-console.log("UnaHur - Anti-Social net");
+const express = require("express")
+const app = express()
+const { userRoute } = require("./routes")
+
+const PORT = process.env.PORT || 3001
+app.use(express.json())
+app.use("/users", userRoute)
+app.listen(PORT, () => {
+  console.log(`Server corriendo en el puerto: ${PORT}`)
+})
