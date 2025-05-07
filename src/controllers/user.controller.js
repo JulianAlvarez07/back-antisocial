@@ -13,7 +13,6 @@ const getUserByNickName = async (req, res) => {
   res.status(200).json(user)
 }
 
-// a partir de aca no se esta persistiendo, falta cambiar array por modelo User
 const createUser = async (req, res) => {
   try {
     await User.create(req.body)
