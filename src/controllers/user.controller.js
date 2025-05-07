@@ -1,17 +1,19 @@
 const users = require("../db/data.json")
-const getUsers = (req, res) => {
-  res.status(200).json(users)
+const { User } = require("../db/models")
+const getUsers = async (req, res) => {
+  res.status(200).json(await User.findAll())
 }
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res) => {
   const { id } = req.params
-  const user = users.find((user) => user.nickName == id)
+  const user = await User.findOne({ where: { nickName: id } })
   if (!user) {
-    return res.status(404).json({ message: "User not found" })
+    return res.status(404).json({ message: `el usuario ${id} no existe` })
   }
   res.status(200).json(user)
 }
 
+// a partir de aca no se esta persistiendo, falta cambiar array por modelo User
 const createUser = (req, res) => {
   const { nickName, nombre, fechaNacimiento } = req.body
   if (!nickName || !nombre || !fechaNacimiento) {
