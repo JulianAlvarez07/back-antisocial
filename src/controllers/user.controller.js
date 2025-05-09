@@ -1,51 +1,49 @@
-const users = require("../db/data.json")
-const { User } = require("../db/models")
+const users = require("../db/data.json");
+const { User } = require("../db/models");
+
 const getUsers = async (req, res) => {
-  res.status(200).json(await User.findAll())
-}
+  res.status(200).json(await User.findAll());
+};
 
 const getUserByNickName = async (req, res) => {
-  const { id } = req.params
-  const user = await User.findOne({ where: { nickName: id } })
-  if (!user) {
-    return res.status(404).json({ message: `el usuario ${id} no existe` })
-  }
-  res.status(200).json(user)
-}
+  const { id } = req.params;
+  const user = await User.findByPk(id);
+  res.status(200).json(user);
+};
 
 const createUser = async (req, res) => {
   try {
-    await User.create(req.body)
-    res.status(200).json(req.body, "Usuario creado")
-  } catch (error) {
-    res.status(400).json({ messge: "Error al crear el usuario" })
+    const newUser = await User.create(req.body);
+    res.status(201).json(newUser);
+  } catch (e) {
+    res.status(400).json({ error: e });
   }
-}
+};
 const updateUser = async (req, res) => {
-  const { id } = req.params
-  const user = await User.findOne({ where: { nickName: id } })
+  const { id } = req.params;
+  const user = await User.findByPk(id);
   if (!user) {
-    return res.status(400).json({ message: "Usuario no encontrado" })
+    return res.status(400).json({ message: "Usuario no encontrado" });
   }
   try {
-    await user.update(req.body)
-    res.status(200).json(user)
-  } catch (error) {
-    console.error(error)
-    res.status(400).json({ message: "Error al actualizar usuario" })
+    await user.update(req.body);
+    res.status(200).json(user);
+  } catch (e) {
+    res.status(400).json({ error: e });
   }
-}
+};
 
 const deleteUserByNickName = async (req, res) => {
-  const { id } = req.params
-  const user = await User.findOne({ where: { nickName: id } })
-  await user.destroy()
-  res.status(204).send()
-}
+  const { id } = req.params;
+  const user = await User.findByPk(id);
+  await user.destroy();
+  res.status(204).send();
+};
+
 module.exports = {
   getUsers,
   getUserByNickName,
   createUser,
   updateUser,
   deleteUserByNickName,
-}
+};
