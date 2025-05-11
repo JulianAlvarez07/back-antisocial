@@ -16,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         as: "post",
       });
+      User.hasMany(models.Comment, {
+        foreignKey: {
+          name: "userIdComment",
+          allowNull: false,
+        },
+        as: "comment",
+      });
     }
   }
   User.init(

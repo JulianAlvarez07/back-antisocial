@@ -8,7 +8,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Comment.belongsTo(models.Post, {
+        foreignKey: {
+          name: "postIdComment",
+          allowNull: false,
+        },
+        as: {
+          models: "post",
+        },
+      });
+      Comment.belongsTo(models.User, {
+        foreignKey: {
+          name: "userIdComment",
+          allowNull: false,
+        },
+        as: "user",
+      });
     }
   }
   Comment.init(
@@ -26,9 +41,10 @@ module.exports = (sequelize, DataTypes) => {
         get: function () {
           const fecha = new Date(this.get("fecha"));
           const hoy = new Date();
-          const seisMesesAtras = new Date();
+          const seisMesesAtras = new Date(hoy);
           seisMesesAtras.setMonth(hoy.getMonth() - 6);
-          return hoy - fecha < seisMesesAtras;
+
+          return fecha >= seisMesesAtras && fecha <= hoy;
         },
       },
       fechaVisible: {

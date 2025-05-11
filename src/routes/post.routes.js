@@ -13,5 +13,9 @@ route.post("/", postController.createPost);
 route.put("/:id", postController.updatePost);
 
 route.delete("/:id", postController.deletePost);
+// ruta alternativa - ver si esta bien
+route.post("/:id/images", postController.createImageByPost);
+
+route.post("/:id/comment", postController.createCommentByPost);
 
 module.exports = route;

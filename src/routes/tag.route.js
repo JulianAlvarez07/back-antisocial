@@ -6,10 +6,10 @@ const route = Router();
 
 route.get("/", tagController.getTag);
 
-route.get("/:id", tagController.getTagById);
+//route.get("/:id", tagController.getTagById);
 
 route.post("/", tagController.createTag);
 
-route.delete("/:id", tagController.deleteTag);
+route.delete("/:id", tagController.deleteTagById);
 
 module.exports = route;

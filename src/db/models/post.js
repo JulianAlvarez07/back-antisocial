@@ -17,6 +17,20 @@ module.exports = (sequelize, DataTypes) => {
           models: "user",
         },
       });
+      Post.hasMany(models.Post_Images, {
+        foreignKey: {
+          name: "postId",
+          allowNull: false,
+        },
+        as: "post_images",
+      });
+      Post.hasMany(models.Comment, {
+        foreignKey: {
+          name: "postIdComment",
+          allowNull: false,
+        },
+        as: "comment",
+      });
     }
   }
   Post.init(

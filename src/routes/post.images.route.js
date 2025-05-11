@@ -1,15 +1,14 @@
-const { Router } = require("express");
-const { postImagesController } = require("../controllers");
-const { Post_Images } = require("../db/models");
+const { Router } = require("express")
+const { postImagesController } = require("../controllers")
 
-const route = Router();
+const route = Router()
 
-route.get("/", postImagesController.getImages);
+route.get("/", postImagesController.getImages)
 
-route.get("/:id", postImagesController.getImagesById);
+route.get("/:id", postImagesController.getImagesByPost)
 
-route.post("/", postImagesController.createImage);
+route.post("/", postImagesController.createImage)
 
-route.delete("/:id", postImagesController.deleteImage);
+route.delete("/:id", postImagesController.deleteImageById)
 
-module.exports = route;
+module.exports = route
