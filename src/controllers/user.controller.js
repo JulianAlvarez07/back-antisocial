@@ -1,5 +1,4 @@
-const users = require("../db/data.json");
-const { User } = require("../db/models");
+const { User, Post } = require("../db/models");
 
 const getUsers = async (req, res) => {
   res.status(200).json(await User.findAll());
@@ -15,6 +14,21 @@ const createUser = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
     res.status(201).json(newUser);
+  } catch (e) {
+    res.status(400).json({ error: e });
+  }
+};
+
+const createPost = async (req, res) => {
+  try {
+    const idUser = req.params.id;
+    const fechaHoy = new Date();
+    const newPost = await Post.create({
+      ...req.body,
+      fecha: fechaHoy,
+      userId: idUser,
+    });
+    res.status(201).json(newPost);
   } catch (e) {
     res.status(400).json({ error: e });
   }
@@ -46,4 +60,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUserByNickName,
+  createPost,
 };

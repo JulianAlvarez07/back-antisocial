@@ -19,7 +19,8 @@ route.post(
   userMiddleware.schemaValidator(userSchema),
   userController.createUser
 );
-
+//consultar si esta bien ponerlo aca
+route.post("/:id/post", userController.createPost);
 route.put(
   "/:id",
   userMiddleware.schemaValidator(userSchema),
@@ -32,4 +33,5 @@ route.delete(
   userMiddleware.existsModelById(User),
   userController.deleteUserByNickName
 );
+
 module.exports = route;

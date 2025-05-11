@@ -1,5 +1,6 @@
-"use strict"
-const { Model } = require("sequelize")
+"use strict";
+const { Model } = require("sequelize");
+const { FOREIGNKEYS } = require("sequelize/lib/query-types");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -8,7 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Post, {
+        foreignKey: {
+          name: "userId",
+          allowNull: false,
+        },
+        as: "post",
+      });
     }
   }
   User.init(
@@ -26,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
         get: function () {
           return (
             Math.floor(new Date() - new Date(this.get("fechaNacimiento"))) /
-            (1000 * 60 * 60 * 24 * 365)
-          )
+            (1000 * 60 * 60 * 24 * 365.25)
+          );
         },
       },
     },
@@ -36,6 +43,6 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
       modelName: "User",
     }
-  )
-  return User
-}
+  );
+  return User;
+};
