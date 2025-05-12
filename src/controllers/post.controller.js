@@ -20,17 +20,17 @@ const getPostById = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
+  const { fecha, contenido, userId } = req.body;
+
   try {
-    const idUser = req.params.id;
-    const fechaHoy = new Date();
-    const newPost = await Post.create({
-      ...req.body,
-      fecha: fechaHoy,
-      userId: idUser,
-    });
+    const user = await User.findByPk(userId);
+    if (!user)
+      return res.status(400).json({ message: "Usuario no encontrado" });
+
+    const newPost = await Post.create({ fecha, contenido, userId });
     res.status(201).json(newPost);
-  } catch (e) {
-    res.status(400).json({ error: e });
+  } catch (error) {
+    res.status(500).json({ message: "Error al crear el post", error });
   }
 };
 
@@ -73,23 +73,27 @@ const createImageByPost = async (req, res) => {
 };
 
 const createCommentByPost = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // id del post
+  const { comentario, fecha, userIdComment } = req.body;
 
-  const post = await Post.findByPk(id);
-  if (!post) {
-    return res.status(400).json({ message: "Post no encontrado" });
-  }
   try {
-    post_comment = await Comment.create({
-      ...req.body,
+    const post = await Post.findByPk(id);
+    if (!post) return res.status(404).json({ message: "Post no encontrado" });
+
+    const user = await User.findByPk(userIdComment);
+    if (!user)
+      return res.status(404).json({ message: "Usuario no encontrado" });
+
+    const comment = await Comment.create({
+      comentario,
+      fecha,
       postIdComment: id,
-      //el usuario tiene que ser el que creo el comentario. lo de abajo esta mal
-      userIdComment: post.userId,
+      userIdComment,
     });
-    res.status(201).json(post_comment);
-  } catch (e) {
-    console.log(e);
-    res.status(400).json({ error: e });
+
+    res.status(201).json(comment);
+  } catch (error) {
+    res.status(500).json({ message: "Error al crear el comentario", error });
   }
 };
 

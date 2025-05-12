@@ -13,9 +13,7 @@ module.exports = (sequelize, DataTypes) => {
           name: "postIdComment",
           allowNull: false,
         },
-        as: {
-          models: "post",
-        },
+        as: "post",
       });
       Comment.belongsTo(models.User, {
         foreignKey: {
@@ -35,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       fecha: {
         type: DataTypes.DATEONLY,
         allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
       visible: {
         type: new DataTypes.VIRTUAL(DataTypes.BOOLEAN, ["fecha"]),

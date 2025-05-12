@@ -13,9 +13,7 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
           allowNull: false,
         },
-        as: {
-          models: "user",
-        },
+        as: "user",
       });
       Post.hasMany(models.Post_Images, {
         foreignKey: {
@@ -38,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       fecha: {
         type: DataTypes.DATEONLY,
         allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
       contenido: {
         type: DataTypes.STRING,

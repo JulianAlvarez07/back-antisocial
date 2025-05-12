@@ -8,6 +8,7 @@ route.get("/", postController.getPost);
 
 route.get("/:id", postController.getPostById);
 
+//ya anda esto, para crear desde la ruta /post
 route.post("/", postController.createPost);
 
 route.put("/:id", postController.updatePost);
