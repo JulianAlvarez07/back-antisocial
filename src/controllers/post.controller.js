@@ -23,10 +23,6 @@ const createPost = async (req, res) => {
   const { fecha, contenido, userId } = req.body;
 
   try {
-    const user = await User.findByPk(userId);
-    if (!user)
-      return res.status(400).json({ message: "Usuario no encontrado" });
-
     const newPost = await Post.create({ fecha, contenido, userId });
     res.status(201).json(newPost);
   } catch (error) {
@@ -37,9 +33,6 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
   const { id } = req.params;
   const post = await Post.findByPk(id);
-  if (!post) {
-    return res.status(400).json({ message: "Post no encontrado" });
-  }
   try {
     await post.update(req.body);
     res.status(200).json(post);
@@ -58,13 +51,8 @@ const deletePost = async (req, res) => {
 
 const createImageByPost = async (req, res) => {
   const { id } = req.params;
-
-  const post = await Post.findByPk(id);
-  if (!post) {
-    return res.status(400).json({ message: "Post no encontrado" });
-  }
   try {
-    post_image = await Post_Images.create({ ...req.body, postId: id });
+    const post_image = await Post_Images.create({ ...req.body, postId: id });
     res.status(201).json(post_image);
   } catch (e) {
     console.log(e);
@@ -77,13 +65,6 @@ const createCommentByPost = async (req, res) => {
   const { comentario, fecha, userIdComment } = req.body;
 
   try {
-    const post = await Post.findByPk(id);
-    if (!post) return res.status(404).json({ message: "Post no encontrado" });
-
-    const user = await User.findByPk(userIdComment);
-    if (!user)
-      return res.status(404).json({ message: "Usuario no encontrado" });
-
     const comment = await Comment.create({
       comentario,
       fecha,

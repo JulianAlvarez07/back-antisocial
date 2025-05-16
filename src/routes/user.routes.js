@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { userController } = require("../controllers");
 const { genericMiddleware } = require("../middlewares");
 const { User } = require("../db/models");
-const { userSchema,postSchema } = require("../schemas");
+const { userSchema } = require("../schemas");
 
 const route = Router();
 route.get("/", userController.getUsers);
@@ -19,11 +19,6 @@ route.post(
   genericMiddleware.schemaValidator(userSchema),
   userController.createUser
 );
-//consultar si esta bien ponerlo aca
-route.post(
-  "/:id/post",
-  genericMiddleware.schemaValidator(postSchema),
-  userController.createPost);
 
 route.put(
   "/:id",
