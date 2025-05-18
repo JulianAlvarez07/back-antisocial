@@ -6,9 +6,6 @@ const createCommentTag = async (req, res) => {
     const post = await Post.findByPk(postId)
     const tag = await Tag.findByPk(tagId)
 
-    if (!post || !tag) {
-      return res.status(404).json({ message: "Post no encontrdo" })
-    }
     await post.addTag(tag)
     res.status(200).json({ message: "Tag creado con exito" })
   } catch (error) {
@@ -21,10 +18,6 @@ const deleteCommentTag = async (req, res) => {
   try {
     const post = await Post.findByPk(postId)
     const tag = await Tag.findByPk(tagId)
-
-    if (!post || !tag) {
-      return res.status(404).json({ message: "Post no encontrdo" })
-    }
     await post.removeTag(tag)
     res.status(200).json({ message: "Tag eliminado con exito" })
   } catch (error) {
@@ -40,10 +33,7 @@ const getCommentTags = async (req, res) => {
     const post = await Post.findByPk(id, {
       include: [{ model: Tag, as: "tags" }],
     })
-    console.log(post)
-    if (!post) {
-      return res.status(404).json({ message: "Post no encontrado" })
-    }
+
     res.status(200).json(post)
   } catch (error) {
     console.error("Error al obtener los tags:", error)

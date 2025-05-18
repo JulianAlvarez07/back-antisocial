@@ -1,4 +1,4 @@
-const { Post, User, Comment } = require("../db/models")
+const { Post, User, Comment, Tag } = require("../db/models")
 
 const validateId = (req, res, next) => {
   const id = req.params.id
@@ -89,6 +89,49 @@ const validarComentario = async (req, res, next) => {
   }
 }
 
+/////// middleware para validar el id de un tag
+const validarTag = (campoIdtag = "tagId") => {
+  return async (req, res, next) => {
+    const tagId = req.body[campoIdtag]
+
+    try {
+      const tag = await Tag.findByPk(tagId)
+      if (!tag) {
+        return res
+          .status(404)
+          .json({ message: `Tag con id: ${tagId} no encontrado` })
+      }
+      next()
+    } catch (error) {
+      return res.status(500).json({
+        message: `Error al validar Tag con campo ${campoIdtag}`,
+        error,
+      })
+    }
+  }
+}
+//// middleware para validar el id de un post
+const validarPostById = (campoIdPost = "postId") => {
+  return async (req, res, next) => {
+    const postId = req.body[campoIdPost]
+
+    try {
+      const post = await Post.findByPk(postId)
+      if (!post) {
+        return res
+          .status(404)
+          .json({ message: `post con id: ${postId} no encontrado` })
+      }
+      next()
+    } catch (error) {
+      return res.status(500).json({
+        message: `Error al validar post con campo ${campoIdPost}`,
+        error,
+      })
+    }
+  }
+}
+
 module.exports = {
   existsModelById,
   validateId,
@@ -96,4 +139,6 @@ module.exports = {
   validarPost,
   validarUsuario,
   validarComentario,
+  validarTag,
+  validarPostById,
 }
