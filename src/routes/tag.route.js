@@ -1,15 +1,25 @@
-const { Router } = require("express");
-const { tagController } = require("../controllers");
-const { Tag } = require("../db/models");
+const { Router } = require("express")
+const { tagController } = require("../controllers")
+const { Tag } = require("../db/models")
+const { tagSchema } = require("../schemas")
+const genericMiddleware = require("../middlewares/generic.middleware")
+const route = Router()
 
-const route = Router();
-
-route.get("/", tagController.getTag);
+route.get("/", tagController.getTag)
 
 //route.get("/:id", tagController.getTagById);
 
-route.post("/", tagController.createTag);
+route.post(
+  "/",
+  genericMiddleware.schemaValidator(tagSchema),
+  tagController.createTag
+)
 
-route.delete("/:id", tagController.deleteTagById);
+route.delete(
+  "/:id",
+  genericMiddleware.validateId,
+  genericMiddleware.existsModelById(Tag),
+  tagController.deleteTagById
+)
 
-module.exports = route;
+module.exports = route

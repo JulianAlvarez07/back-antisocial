@@ -1,6 +1,8 @@
 const { Router } = require("express")
 const { commentTagController } = require("../controllers")
 const { Tag, Comment } = require("../db/models")
+const genericMiddleware = require("../middlewares/generic.middleware")
+
 const route = Router()
 
 route.post("/", commentTagController.createCommentTag)

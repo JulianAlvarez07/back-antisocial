@@ -1,0 +1,331 @@
+openapi: 3.0.0
+info:
+  title: UnaHur Anti-Social Net API
+  version: 1.0.0
+  description: API para la red social UnaHur Anti-Social Net
+
+servers:
+  - url: http://localhost:3001
+
+paths:
+  /users:
+    get:
+      summary: Obtener todos los usuarios
+      responses:
+        "200":
+          description: Lista de usuarios
+    post:
+      summary: Crear un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Usuario creado
+
+  /users/{id}:
+    get:
+      summary: Obtener usuario por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Usuario encontrado
+        "404":
+          description: Usuario no encontrado
+    put:
+      summary: Actualizar usuario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Usuario actualizado
+    delete:
+      summary: Eliminar usuario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Usuario eliminado
+
+  /post:
+    get:
+      summary: Obtener todos los posts
+      responses:
+        "200":
+          description: Lista de posts
+    post:
+      summary: Crear un post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "201":
+          description: Post creado
+
+  /post/{id}:
+    get:
+      summary: Obtener post por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Post encontrado
+        "404":
+          description: Post no encontrado
+    put:
+      summary: Actualizar post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "200":
+          description: Post actualizado
+    delete:
+      summary: Eliminar post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Post eliminado
+
+  /post/{id}/images:
+    post:
+      summary: Agregar imagen a un post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostImage"
+      responses:
+        "201":
+          description: Imagen agregada
+
+  /post/{id}/comment:
+    post:
+      summary: Agregar comentario a un post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Comment"
+      responses:
+        "201":
+          description: Comentario agregado
+
+  /comments:
+    get:
+      summary: Obtener todos los comentarios
+      responses:
+        "200":
+          description: Lista de comentarios
+
+  /comments/{id}:
+    put:
+      summary: Actualizar comentario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Comment"
+      responses:
+        "200":
+          description: Comentario actualizado
+    delete:
+      summary: Eliminar comentario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Comentario eliminado
+
+  /tags:
+    get:
+      summary: Obtener todas las etiquetas
+      responses:
+        "200":
+          description: Lista de etiquetas
+    post:
+      summary: Crear etiqueta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+      responses:
+        "201":
+          description: Etiqueta creada
+
+  /tags/{id}:
+    delete:
+      summary: Eliminar etiqueta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Etiqueta eliminada
+
+  /comment-tags:
+    post:
+      summary: Asociar tag a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                postId:
+                  type: integer
+                tagId:
+                  type: integer
+      responses:
+        "200":
+          description: Tag asociado
+    delete:
+      summary: Eliminar tag de post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                postId:
+                  type: integer
+                tagId:
+                  type: integer
+      responses:
+        "200":
+          description: Tag eliminado
+
+  /comment-tags/post/{id}:
+    get:
+      summary: Obtener tags asociados a un post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de tags asociados al post
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        nickName:
+          type: string
+        nombre:
+          type: string
+        email:
+          type: string
+        fechaNacimiento:
+          type: string
+          format: date
+    Post:
+      type: object
+      properties:
+        fecha:
+          type: string
+          format: date
+        contenido:
+          type: string
+        userId:
+          type: integer
+    PostImage:
+      type: object
+      properties:
+        url:
+          type: string
+        userId:
+          type: integer
+    Comment:
+      type: object
+      properties:
+        comentario:
+          type: string
+        fecha:
+          type: string
+          format: date
+        userIdComment:
+          type: integer
+    Tag:
+      type: object
+      properties:
+        nombreEtiqueta:
+          type: string
