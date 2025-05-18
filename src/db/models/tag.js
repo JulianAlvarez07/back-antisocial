@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+"use strict"
+const { Model } = require("sequelize")
 module.exports = (sequelize, DataTypes) => {
   class Tag extends Model {
     /**
@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Tag.belongsToMany(models.Post, {
+        through: "PostTags",
+        foreignKey: "tagId",
+        timestamps: false,
+        as: "posts",
+      })
     }
   }
   Tag.init(
@@ -23,6 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Tag",
       timestamps: false,
     }
-  );
-  return Tag;
-};
+  )
+  return Tag
+}
