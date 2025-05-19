@@ -1,24 +1,21 @@
-const { Router } = require("express")
-const { commentController } = require("../controllers")
-const { Tag } = require("../db/models")
-const { genericMiddleware } = require("../middlewares")
-const { commentSchema, updateComentarioSchema } = require("../schemas")
-const route = Router()
+const { Router } = require("express");
+const { commentController } = require("../controllers");
+const { genericMiddleware } = require("../middlewares");
+const { updateCommentSchema } = require("../schemas");
+const route = Router();
 
-route.get("/", commentController.getComments)
-
-//route.get("/:id", commentController.getCommentById);
+route.get("/", commentController.getComments);
 
 route.put(
   "/:id",
-  genericMiddleware.schemaValidator(updateComentarioSchema),
+  genericMiddleware.schemaValidator(updateCommentSchema),
   commentController.updateCommentById
-)
+);
 
 route.delete(
   "/:id",
-  genericMiddleware.validarComentario,
+  genericMiddleware.validateComment,
   commentController.deleteCommentById
-)
+);
 
-module.exports = route
+module.exports = route;

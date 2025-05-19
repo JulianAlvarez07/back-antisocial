@@ -1,4 +1,4 @@
-const { Post, Post_Images, Comment, User } = require("../db/models");
+const { Post, Post_Images, Comment } = require("../db/models");
 const getPost = async (req, res) => {
   res.status(200).json(await Post.findAll());
 };
@@ -61,7 +61,7 @@ const createImageByPost = async (req, res) => {
 };
 
 const createCommentByPost = async (req, res) => {
-  const { id } = req.params; // id del post
+  const { id } = req.params;
   const { comentario, fecha, userIdComment } = req.body;
 
   try {

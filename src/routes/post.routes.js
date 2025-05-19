@@ -6,33 +6,32 @@ const route = Router();
 
 route.get("/", postController.getPost);
 
-route.get("/:id", genericMiddleware.validarPost, postController.getPostById);
+route.get("/:id", genericMiddleware.validatePost, postController.getPostById);
 
-//ya anda esto, para crear desde la ruta /post
 route.post(
   "/",
   genericMiddleware.schemaValidator(postSchema),
-  genericMiddleware.validarUsuario("userId"),
+  genericMiddleware.validateUser("userId"),
   postController.createPost
 );
 
-route.put("/:id", genericMiddleware.validarPost, postController.updatePost);
+route.put("/:id", genericMiddleware.validatePost, postController.updatePost);
 
-route.delete("/:id", genericMiddleware.validarPost, postController.deletePost);
-// ruta alternativa - ver si esta bien
+route.delete("/:id", genericMiddleware.validatePost, postController.deletePost);
+
 route.post(
   "/:id/images",
   genericMiddleware.schemaValidator(postImagesSchema),
-  genericMiddleware.validarPost,
-  genericMiddleware.validarUsuario("userId"),
+  genericMiddleware.validatePost,
+  genericMiddleware.validateUser("userId"),
   postController.createImageByPost
 );
 
 route.post(
   "/:id/comment",
   genericMiddleware.schemaValidator(commentSchema),
-  genericMiddleware.validarPost,
-  genericMiddleware.validarUsuario("userIdComment"),
+  genericMiddleware.validatePost,
+  genericMiddleware.validateUser("userIdComment"),
   postController.createCommentByPost
 );
 

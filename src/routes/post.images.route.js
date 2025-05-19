@@ -8,15 +8,15 @@ route.get("/", postImagesController.getImages);
 
 route.get(
   "/:id",
-  genericMiddleware.validarPost,
+  genericMiddleware.validatePost,
   postImagesController.getImagesByPost
 );
+
 //se crea en la ruta post
-//route.post("/", postImagesController.createImage);
 
 route.delete(
   "/:id",
-  genericMiddleware.validarPost,
+  genericMiddleware.validatePost,
   postImagesController.deleteImageById
 );
 
