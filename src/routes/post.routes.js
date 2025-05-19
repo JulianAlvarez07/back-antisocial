@@ -1,23 +1,23 @@
-const { Router } = require("express");
-const { postController } = require("../controllers");
-const { genericMiddleware } = require("../middlewares");
-const { commentSchema, postImagesSchema, postSchema } = require("../schemas");
-const route = Router();
+const { Router } = require("express")
+const { postController } = require("../controllers")
+const { genericMiddleware } = require("../middlewares")
+const { commentSchema, postImagesSchema, postSchema } = require("../schemas")
+const route = Router()
 
-route.get("/", postController.getPost);
+route.get("/", postController.getPost)
 
-route.get("/:id", genericMiddleware.validatePost, postController.getPostById);
+route.get("/:id", genericMiddleware.validatePost, postController.getPostById)
 
 route.post(
   "/",
   genericMiddleware.schemaValidator(postSchema),
   genericMiddleware.validateUser("userId"),
   postController.createPost
-);
+)
 
-route.put("/:id", genericMiddleware.validatePost, postController.updatePost);
+route.put("/:id", genericMiddleware.validatePost, postController.updatePost)
 
-route.delete("/:id", genericMiddleware.validatePost, postController.deletePost);
+route.delete("/:id", genericMiddleware.validatePost, postController.deletePost)
 
 route.post(
   "/:id/images",
@@ -25,7 +25,7 @@ route.post(
   genericMiddleware.validatePost,
   genericMiddleware.validateUser("userId"),
   postController.createImageByPost
-);
+)
 
 route.post(
   "/:id/comment",
@@ -33,7 +33,7 @@ route.post(
   genericMiddleware.validatePost,
   genericMiddleware.validateUser("userIdComment"),
   postController.createCommentByPost
-);
+)
 
 route.post(
   "/:id/addImage",
@@ -41,13 +41,13 @@ route.post(
   genericMiddleware.validatePost,
   genericMiddleware.validateUser("userId"),
   postController.addImage
-);
+)
 route.delete(
   "/:id/deleteImage/:imageId",
   genericMiddleware.schemaValidator(postImagesSchema),
   genericMiddleware.validatePost,
   genericMiddleware.validateImageId,
   postController.deleteImage
-);
+)
 
-module.exports = route;
+module.exports = route

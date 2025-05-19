@@ -1,20 +1,35 @@
 openapi: 3.0.0
 info:
-  title: Anti-Social Relational - Los Crudos API
+  title: anti-social-losCrudos API
   version: 1.0.0
-  description: API para la red social experimental Anti-Social Relational.
+  description: API para la red social experimental Anti-Social Relational - Los Crudos
 
 servers:
   - url: http://localhost:3001
 
+tags:
+  - name: USER
+    description: Endpoints de usuarios
+  - name: POST
+    description: Endpoints de publicaciones
+  - name: COMMENTS
+    description: Endpoints de comentarios
+  - name: TAGS
+    description: Endpoints de etiquetas
+  - name: COMMENTTAGS
+    description: Endpoints de asociación post-tag
+
 paths:
+  # === USER ===
   /users:
     get:
+      tags: [USER]
       summary: Obtener todos los usuarios
       responses:
         '200':
           description: Lista de usuarios
     post:
+      tags: [USER]
       summary: Crear un usuario
       requestBody:
         required: true
@@ -28,6 +43,7 @@ paths:
 
   /users/{id}:
     get:
+      tags: [USER]
       summary: Obtener usuario por ID
       parameters:
         - in: path
@@ -41,6 +57,7 @@ paths:
         '404':
           description: Usuario no encontrado
     put:
+      tags: [USER]
       summary: Actualizar usuario
       parameters:
         - in: path
@@ -58,6 +75,7 @@ paths:
         '200':
           description: Usuario actualizado
     delete:
+      tags: [USER]
       summary: Eliminar usuario
       parameters:
         - in: path
@@ -69,13 +87,16 @@ paths:
         '204':
           description: Usuario eliminado
 
+  # === POST ===
   /post:
     get:
+      tags: [POST]
       summary: Obtener todos los posts
       responses:
         '200':
           description: Lista de posts
     post:
+      tags: [POST]
       summary: Crear un post
       requestBody:
         required: true
@@ -89,6 +110,7 @@ paths:
 
   /post/{id}:
     get:
+      tags: [POST]
       summary: Obtener post por ID
       parameters:
         - in: path
@@ -102,6 +124,7 @@ paths:
         '404':
           description: Post no encontrado
     put:
+      tags: [POST]
       summary: Actualizar post
       parameters:
         - in: path
@@ -119,6 +142,7 @@ paths:
         '200':
           description: Post actualizado
     delete:
+      tags: [POST]
       summary: Eliminar post
       parameters:
         - in: path
@@ -132,6 +156,7 @@ paths:
 
   /post/{id}/images:
     post:
+      tags: [POST]
       summary: Agregar imagen a un post
       parameters:
         - in: path
@@ -149,8 +174,48 @@ paths:
         '201':
           description: Imagen agregada
 
+  /post/{id}/addImage:
+    post:
+      tags: [POST]
+      summary: Agregar imagen adicional a un post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostImage'
+      responses:
+        '201':
+          description: Imagen agregada
+
+  /post/{id}/deleteImage/{imageId}:
+    delete:
+      tags: [POST]
+      summary: Eliminar una imagen de un post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: imageId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Imagen eliminada
+
   /post/{id}/comment:
     post:
+      tags: [POST]
       summary: Agregar comentario a un post
       parameters:
         - in: path
@@ -168,8 +233,10 @@ paths:
         '201':
           description: Comentario agregado
 
+  # === COMMENTS ===
   /comments:
     get:
+      tags: [COMMENTS]
       summary: Obtener todos los comentarios
       responses:
         '200':
@@ -177,6 +244,7 @@ paths:
 
   /comments/{id}:
     put:
+      tags: [COMMENTS]
       summary: Actualizar comentario
       parameters:
         - in: path
@@ -194,6 +262,7 @@ paths:
         '200':
           description: Comentario actualizado
     delete:
+      tags: [COMMENTS]
       summary: Eliminar comentario
       parameters:
         - in: path
@@ -205,13 +274,16 @@ paths:
         '200':
           description: Comentario eliminado
 
+  # === TAGS ===
   /tags:
     get:
+      tags: [TAGS]
       summary: Obtener todas las etiquetas
       responses:
         '200':
           description: Lista de etiquetas
     post:
+      tags: [TAGS]
       summary: Crear etiqueta
       requestBody:
         required: true
@@ -225,6 +297,7 @@ paths:
 
   /tags/{id}:
     delete:
+      tags: [TAGS]
       summary: Eliminar etiqueta
       parameters:
         - in: path
@@ -236,8 +309,10 @@ paths:
         '204':
           description: Etiqueta eliminada
 
+  # === COMMENTTAGS ===
   /comment-tags:
     post:
+      tags: [COMMENTTAGS]
       summary: Asociar tag a post
       requestBody:
         required: true
@@ -254,6 +329,7 @@ paths:
         '200':
           description: Tag asociado
     delete:
+      tags: [COMMENTTAGS]
       summary: Eliminar tag de post
       requestBody:
         required: true
@@ -272,6 +348,7 @@ paths:
 
   /comment-tags/post/{id}:
     get:
+      tags: [COMMENTTAGS]
       summary: Obtener tags asociados a un post
       parameters:
         - in: path
