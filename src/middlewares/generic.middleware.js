@@ -142,9 +142,10 @@ const validateImageId = async (req, res, next) => {
         message: "Imagen no encontrada",
       });
     }
+    req.image = image;
     next();
   } catch (error) {
-    res.status(500).json({ message: "Error al validar la imagen", error });
+    res.status(500).json({ message: "Error al validar la imagen midd", error });
   }
 };
 
