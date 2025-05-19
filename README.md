@@ -1,82 +1,86 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Sl6aWwgf)
-# Red Anti-Social
+# 💥 Anti-Social Relational - Los Crudos
 
-Se solicita el modelado y desarrollo de un sistema backend para una red social llamada **“UnaHur Anti-Social Net”**, inspirada en plataformas populares que permiten a los usuarios realizar publicaciones y recibir comentarios sobre las mismas.
+Proyecto desarrollado por el grupo **Los Crudos** para la materia *Construcción de Interfaces de Usuario*.  
+Se trata de una aplicación web que explora interacciones sociales digitales de manera crítica y creativa.
 
-![Imagen](./assets/ANTI-SOCIALNET.jpeg)
+---
 
-# Contexto del Proyecto
+## 🎯 Descripción
 
-En una primera reunión con los sponsors del proyecto, se definieron los siguientes requerimientos para el desarrollo de un **MVP (Producto Mínimo Viable)**:
+**Anti-Social Relational** es una interfaz experimental que simula una red social con un enfoque irónico sobre la conectividad digital y las relaciones interpersonales. Su diseño busca ser provocador, funcional y visualmente impactante.
 
-- El sistema debe permitir que un usuario registrado realice una publicación (post), incluyendo **obligatoriamente una descripción**. De forma opcional, se podrán asociar **una o más imágenes** a dicha publicación.
+—
 
-- Las publicaciones pueden recibir **comentarios** por parte de otros usuarios.
+#Esquema DER
 
-- Las publicaciones pueden estar asociadas a **etiquetas (tags)**. Una misma etiqueta puede estar vinculada a múltiples publicaciones.
+![Esquema DER](./assets/EsquemaDER.png)
 
-- Es importante que los **comentarios más antiguos que X meses** (valor configurable mediante variables de entorno, por ejemplo, 6 meses) **no se muestren** en la visualización de los posteos.
 
-####
+## 🚀 Funcionalidades Principales
 
-# Entidades y Reglas de Negocio
+- 🧩 Interfaz interactiva con usuarios ficticios
+- 🧵 Feed dinámico con publicaciones generadas
+- 📄 Documentación con Swagger (`swagger.yaml`)
+- 🎭 Enfoque anti-convencional en la experiencia de usuario
+- 💅 Estética disruptiva con diseño propio
 
-Los sponsors definieron los siguientes nombres y descripciones para las entidades:
+---
 
-- **User**: Representa a los usuarios registrados en el sistema. El campo `nickName` debe ser **único** y funcionará como identificador principal del usuario.
 
-- **Post**: Publicación realizada por un usuario en una fecha determinada que contiene el texto que desea publicar. Puede tener **cero o más imágenes** asociadas. Debe contemplarse la posibilidad de **agregar o eliminar imágenes** posteriormente.
 
-- **Post_Images**: Entidad que registra las imágenes asociadas a los posts. Para el MVP, solo se requiere almacenar la **URL de la imagen alojada**.
+## 🛠️ Tecnologías Utilizadas
 
-- **Comment**: Comentario que un usuario puede realizar sobre una publicación. Incluye la fecha en la que fue realizado y una indicación de si está **visible o no**, dependiendo de la configuración (X meses).
+- **Node.js**
+- **Express** `^5.1.0`
+- **Joi** `^17.13.3`
+- **Sequelize** `^6.37.7`
+- **SQLite3** `^5.1.7`
+- **Nodemon** (desarrollo) `^3.1.10`
+- **Sequelize CLI** (desarrollo) `^6.6.3`
 
-- **Tag**: Etiqueta que puede ser asignada a un post. Una etiqueta puede estar asociada a **muchos posts**, y un post puede tener **múltiples etiquetas**.
+---
+##ENDPOINTS
 
-# Requerimientos Técnicos
+Los endpoints pueden ser visualizados Swagger incluido en el proyecto
 
-1. **Modelado de Datos**
+##Colecciones POSTMAN
 
-   - Diseñar el **Diagrama Entidad-Relación (DER)** considerando relaciones de tipo uno a muchos y muchos a muchos.
+Estos se encuentran en la carpeta src/data del proyecto
+## 📦 Instalación
 
-   - Además de las claves primarias, identificar en qué entidades se requiere una **clave única** (`unique key`), y definirla explícitamente.
+1. Clonar el repositorio:
 
-2. **Desarrollo del Backend**
+```bash
+git clone https://github.com/tu_usuario/anti-social-relational-los-crudos.git
+cd anti-social-relational-los-crudos
 
-   - Crear los **endpoints CRUD** necesarios para cada entidad.
+2.Instalar dependencias:
 
-   - Implementar las rutas necesarias para gestionar las relaciones entre entidades (por ejemplo: asociar imágenes a un post, etiquetas a una publicación, etc.).
 
-   - Desarrollar las validaciones necesarias para asegurar la integridad de los datos (schemas, validaciones de integridad referencial).
+npm install
 
-3. **Configuración y Portabilidad**
+3.npx sequelize-cli db:migrate
+npx sequelize-cli db:seed:all
 
-   - El sistema debe poder cambiar de **base de datos** de forma transparente, utilizando configuración e instalación de dependencias adecuadas.
+4.Ejecutar el servidor de desarrollo: npm run dev
 
-   - El sistema debe permitir configurar el **puerto de ejecución y variables de entorno** fácilmente.
+5.Abrir el navegador en:
+"http://localhost:3000" o entorno de ejecución designado
 
-4. **Documentación**
 
-   - Generar la documentación de la API utilizando **Swagger (formato YAML)**, incluyendo todos los endpoints definidos.
+Estructura del proyecto:
 
-5. **Colecciones de Prueba**
-
-   - Entregar las colecciones necesarias para realizar pruebas (por ejemplo, colecciones de Postman o archivos JSON de ejemplo).
-
-###
-
-# Recomendaciones y ayudas
-
-Les entregamos este link que apunta a un front-end ya desarrollado para que puedan investigarlo y puedan crear el back-end que se ajuste lo máximo posible el funcionamiento del front.
-
-[https://unahur.vmdigitai.com/redes-front/users](https://unahur.vmdigitai.com/redes-front/users)
-
-Por otro lado les dejamos la documentación de los endpoint para que también la puedan revisar y armar siguiendo este link
-
-[https://unahur.vmdigitai.com/swagger/](https://unahur.vmdigitai.com/swagger/)
-
-# Bonus
-
-1. Hace el upload de las imágenes que se asocian a un POST que lo guarden en una carpeta de imágenes dentro del servidor web.
-2. ¿Cómo modelarías que un usuario pueda "seguir" a otros usuarios, y a su vez ser seguido por muchos? Followers
-3. Como la información de los post no varía muy seguido ¿Qué estrategias podrían utilizar para que la información no sea constantemente consultada desde la base de datos?
+anti-social-relational-los-crudos/
+├── assets/
+├── src/
+	└── controllers
+	└── data
+	└── db
+	└── middlewares
+	└── routes
+	└── schemas
+	└── main.js
+├── package-lock.json
+├── package.json
+├── swagger.yaml
+└── README.md
