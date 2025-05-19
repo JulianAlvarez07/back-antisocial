@@ -37,7 +37,7 @@ Se trata de una aplicación web que explora interacciones sociales digitales de 
 
 ---
 
-##ENDPOINTS
+## ENDPOINTS
 
 Los endpoints pueden ser visualizados en el Swagger incluido en el proyecto.  
 Para visualizar el swagger:  
@@ -89,3 +89,15 @@ anti-social-relational-los-crudos/
 ├── swagger.yaml
 └── README.md
 ```
+
+## Preguntas BONUS
+1. ¿Cómo hacer el upload de imágenes asociadas a un POST y guardarlas en una carpeta del servidor?  
+Se puede utilizar la libreria -multer en Node.js para manejar el upload de archivos,
+esto permite guardar las imágenes en una carpeta local (por ejemplo, /public/images/posts).
+
+2. ¿Cómo modelarías que un usuario pueda "seguir" a otros usuarios, y a su vez ser seguido por muchos? (Followers)  
+Lo modelariamos con una relacion muchos a muchos (Many-to-Many), en donde se crea una tabla intermiedia llamada por ejemplo Followers, que contenga dos claves foráneas que apuntan a la misma tabla de usuarios (Users): una representando al que sigue (followerId) y otra al que es seguido (followedId), Sería similar a lo que hicimos con los Tags, donde un Post podía tener muchos Tags y un Tag podía estar en muchos Posts, usando una tabla intermedia PostTags.
+
+3. ¿Qué estrategias usar para no consultar constantemente la base de datos si los posts no cambian seguido?  
+Se pueden aplicar estrategias de caching, se nos ocurre canche en memoria con la herramienta Redis.
+
