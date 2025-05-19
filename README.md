@@ -39,7 +39,12 @@ Se trata de una aplicación web que explora interacciones sociales digitales de 
 
 ##ENDPOINTS
 
-Los endpoints pueden ser visualizados Swagger incluido en el proyecto
+Los endpoints pueden ser visualizados en el Swagger incluido en el proyecto.  
+Para visualizar el swagger:  
+con el server corriendo (comando: npm run dev)
+http://localhost:3001/api-docs
+
+El puerto es configurable con la variable de entorno PORT, si no hay una configurada utiliza puerto 3001.
 
 ##Colecciones POSTMAN
 
@@ -64,7 +69,7 @@ npx sequelize-cli db:seed:all
 4.Ejecutar el servidor de desarrollo: npm run dev
 
 5.Abrir el navegador en:
-"http://localhost:3000" o entorno de ejecución designado
+"http://localhost:3001" o entorno de ejecución designado
 
 
 Estructura del proyecto:

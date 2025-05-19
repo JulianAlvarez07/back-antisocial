@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: UnaHur Anti-Social Net API
+  title: Anti-Social Relational - Los Crudos API
   version: 1.0.0
-  description: API para la red social UnaHur Anti-Social Net
+  description: API para la red social experimental Anti-Social Relational.
 
 servers:
   - url: http://localhost:3001
@@ -12,7 +12,7 @@ paths:
     get:
       summary: Obtener todos los usuarios
       responses:
-        "200":
+        '200':
           description: Lista de usuarios
     post:
       summary: Crear un usuario
@@ -21,9 +21,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: '#/components/schemas/User'
       responses:
-        "201":
+        '201':
           description: Usuario creado
 
   /users/{id}:
@@ -36,9 +36,9 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Usuario encontrado
-        "404":
+        '404':
           description: Usuario no encontrado
     put:
       summary: Actualizar usuario
@@ -53,9 +53,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: '#/components/schemas/User'
       responses:
-        "200":
+        '200':
           description: Usuario actualizado
     delete:
       summary: Eliminar usuario
@@ -66,14 +66,14 @@ paths:
           schema:
             type: integer
       responses:
-        "204":
+        '204':
           description: Usuario eliminado
 
   /post:
     get:
       summary: Obtener todos los posts
       responses:
-        "200":
+        '200':
           description: Lista de posts
     post:
       summary: Crear un post
@@ -82,9 +82,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Post"
+              $ref: '#/components/schemas/Post'
       responses:
-        "201":
+        '201':
           description: Post creado
 
   /post/{id}:
@@ -97,9 +97,9 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Post encontrado
-        "404":
+        '404':
           description: Post no encontrado
     put:
       summary: Actualizar post
@@ -114,9 +114,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Post"
+              $ref: '#/components/schemas/Post'
       responses:
-        "200":
+        '200':
           description: Post actualizado
     delete:
       summary: Eliminar post
@@ -127,7 +127,7 @@ paths:
           schema:
             type: integer
       responses:
-        "204":
+        '204':
           description: Post eliminado
 
   /post/{id}/images:
@@ -144,9 +144,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostImage"
+              $ref: '#/components/schemas/PostImage'
       responses:
-        "201":
+        '201':
           description: Imagen agregada
 
   /post/{id}/comment:
@@ -163,16 +163,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Comment"
+              $ref: '#/components/schemas/Comment'
       responses:
-        "201":
+        '201':
           description: Comentario agregado
 
   /comments:
     get:
       summary: Obtener todos los comentarios
       responses:
-        "200":
+        '200':
           description: Lista de comentarios
 
   /comments/{id}:
@@ -189,9 +189,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Comment"
+              $ref: '#/components/schemas/Comment'
       responses:
-        "200":
+        '200':
           description: Comentario actualizado
     delete:
       summary: Eliminar comentario
@@ -202,14 +202,14 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Comentario eliminado
 
   /tags:
     get:
       summary: Obtener todas las etiquetas
       responses:
-        "200":
+        '200':
           description: Lista de etiquetas
     post:
       summary: Crear etiqueta
@@ -218,9 +218,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Tag"
+              $ref: '#/components/schemas/Tag'
       responses:
-        "201":
+        '201':
           description: Etiqueta creada
 
   /tags/{id}:
@@ -233,7 +233,7 @@ paths:
           schema:
             type: integer
       responses:
-        "204":
+        '204':
           description: Etiqueta eliminada
 
   /comment-tags:
@@ -251,7 +251,7 @@ paths:
                 tagId:
                   type: integer
       responses:
-        "200":
+        '200':
           description: Tag asociado
     delete:
       summary: Eliminar tag de post
@@ -267,7 +267,7 @@ paths:
                 tagId:
                   type: integer
       responses:
-        "200":
+        '200':
           description: Tag eliminado
 
   /comment-tags/post/{id}:
@@ -280,7 +280,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Lista de tags asociados al post
 
 components:
@@ -300,9 +300,6 @@ components:
     Post:
       type: object
       properties:
-        fecha:
-          type: string
-          format: date
         contenido:
           type: string
         userId:
@@ -319,9 +316,6 @@ components:
       properties:
         comentario:
           type: string
-        fecha:
-          type: string
-          format: date
         userIdComment:
           type: integer
     Tag:
