@@ -35,4 +35,19 @@ route.post(
   postController.createCommentByPost
 );
 
+route.post(
+  "/:id/addImage",
+  genericMiddleware.schemaValidator(postImagesSchema),
+  genericMiddleware.validatePost,
+  genericMiddleware.validateUser("userId"),
+  postController.addImage
+);
+route.delete(
+  "/:id/deleteImage/:imageId",
+  genericMiddleware.schemaValidator(postImagesSchema),
+  genericMiddleware.validatePost,
+  genericMiddleware.validateImageId,
+  postController.deleteImage
+);
+
 module.exports = route;

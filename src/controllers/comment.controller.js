@@ -3,9 +3,13 @@ const { User, Comment } = require("../db/models");
 const getComments = async (req, res) => {
   res.status(200).json(
     await Comment.findAll({
+      attributes: {
+        exclude: ["fechaVisible", "userIdComment"],
+      },
       include: {
         model: User,
         as: "user",
+        attributes: { exclude: ["nombre", "email", "fechaNacimiento", "edad"] },
       },
     })
   );

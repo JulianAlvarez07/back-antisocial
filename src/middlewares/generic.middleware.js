@@ -1,4 +1,4 @@
-const { Post, User, Comment, Tag } = require("../db/models");
+const { Post, User, Comment, Tag, Post_Images } = require("../db/models");
 
 const validateId = (req, res, next) => {
   const id = req.params.id;
@@ -131,6 +131,23 @@ const validatePostById = (campoIdPost = "postId") => {
   };
 };
 
+const validateImageId = async (req, res, next) => {
+  const { imageId } = req.params;
+
+  try {
+    const image = await Post_Images.findByPk(imageId);
+
+    if (!image) {
+      return res.status(404).json({
+        message: "Imagen no encontrada",
+      });
+    }
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Error al validar la imagen", error });
+  }
+};
+
 module.exports = {
   existsModelById,
   validateId,
@@ -140,4 +157,5 @@ module.exports = {
   validateComment,
   validateTag,
   validatePostById,
+  validateImageId,
 };
