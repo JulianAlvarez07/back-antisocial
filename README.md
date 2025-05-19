@@ -1,6 +1,6 @@
 # 💥 Anti-Social Relational - Los Crudos
 
-Proyecto desarrollado por el grupo **Los Crudos** para la materia *Construcción de Interfaces de Usuario*.  
+Proyecto desarrollado por el grupo **Los Crudos** para la materia _Estrategias de Persistencia_.  
 Se trata de una aplicación web que explora interacciones sociales digitales de manera crítica y creativa.
 
 ---
@@ -15,7 +15,6 @@ Se trata de una aplicación web que explora interacciones sociales digitales de 
 
 ![Esquema DER](./assets/EsquemaDER.png)
 
-
 ## 🚀 Funcionalidades Principales
 
 - 🧩 Interfaz interactiva con usuarios ficticios
@@ -25,8 +24,6 @@ Se trata de una aplicación web que explora interacciones sociales digitales de 
 - 💅 Estética disruptiva con diseño propio
 
 ---
-
-
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -39,6 +36,7 @@ Se trata de una aplicación web que explora interacciones sociales digitales de 
 - **Sequelize CLI** (desarrollo) `^6.6.3`
 
 ---
+
 ##ENDPOINTS
 
 Los endpoints pueden ser visualizados Swagger incluido en el proyecto
@@ -46,6 +44,7 @@ Los endpoints pueden ser visualizados Swagger incluido en el proyecto
 ##Colecciones POSTMAN
 
 Estos se encuentran en la carpeta src/data del proyecto
+
 ## 📦 Instalación
 
 1. Clonar el repositorio:
@@ -84,3 +83,4 @@ anti-social-relational-los-crudos/
 ├── package.json
 ├── swagger.yaml
 └── README.md
+```
