@@ -1,4 +1,5 @@
 const express = require("express")
+const cors = require("cors")
 const db = require("./db/models")
 const app = express()
 const swaggerUi = require("swagger-ui-express")
@@ -16,6 +17,7 @@ const {
 
 const PORT = process.env.PORT || 3001
 app.use(express.json())
+app.use(cors())
 app.use("/users", userRoute)
 app.use("/post", postRoute)
 app.use("/post-images", postImagesRoute)
