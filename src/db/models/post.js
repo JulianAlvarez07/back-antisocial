@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
           allowNull: false,
         },
+
         as: "user",
       })
       Post.hasMany(models.Post_Images, {
