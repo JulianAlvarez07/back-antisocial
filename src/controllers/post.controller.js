@@ -50,6 +50,11 @@ const getPostById = async (req, res) => {
           attributes: ["postId", "tagId"],
         },
       },
+      {
+        model: Comment,
+        as: "comment",
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+      },
     ],
   })
   res.status(200).json(post)
