@@ -85,9 +85,36 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   const { id } = req.params
-  const post = await Post.findByPk(id)
-  await post.destroy()
-  res.status(204).send()
+  
+  try {
+    const post = await Post.findByPk(id)
+    
+    if (!post) {
+      return res.status(404).json({ message: "Post no encontrado" })
+    }
+
+    // Eliminar comentarios asociados al post
+    await Comment.destroy({
+      where: {
+        postIdComment: id
+      }
+    })
+
+    // Eliminar imágenes asociadas al post
+    await Post_Images.destroy({
+      where: {
+        postId: id
+      }
+    })
+
+    // Finalmente eliminar el post
+    await post.destroy()
+    
+    res.status(204).send()
+  } catch (error) {
+    console.error("Error al eliminar el post:", error)
+    res.status(500).json({ message: "Error al eliminar el post", error: error.message })
+  }
 }
 
 const createImageByPost = async (req, res) => {
