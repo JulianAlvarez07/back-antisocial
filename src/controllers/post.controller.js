@@ -3,20 +3,66 @@ const { message } = require("../schemas/user.schema");
 
 const getPost = async (req, res) => {
   try {
-    console.log("Iniciando búsqueda de posts...");
+    console.log("Iniciando búsqueda de posts con todas las relaciones...");
 
-    // Primero intentamos obtener solo los posts sin relaciones
     const posts = await Post.findAll({
       attributes: ["id", "fecha", "contenido", "userId"],
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "nombre", "nickName", "email"], // Corregido: nickName en lugar de nickname
+        },
+        {
+          model: Post_Images,
+          as: "post_images",
+          attributes: ["id", "url"],
+        },
+        {
+          model: Tag,
+          as: "tags",
+          attributes: ["id", "nombreEtiqueta"], // Corregido: nombreEtiqueta es el nombre correcto
+          through: {
+            attributes: ["postId", "tagId"],
+          },
+        },
+        {
+          model: Comment,
+          as: "comment",
+          attributes: [
+            "id",
+            "comentario",
+            "fecha",
+            "userIdComment",
+            "postIdComment",
+          ], // Agregados los IDs correctos
+          include: {
+            model: User,
+            as: "user",
+            attributes: ["id", "nombre", "nickName", "email"], // Corregido: nickName
+          },
+        },
+      ],
+      order: [["createdAt", "DESC"]],
     });
 
-    console.log("Posts encontrados (sin relaciones):", posts.length);
+    console.log(`Posts encontrados: ${posts.length}`);
 
-    // Si llegamos aquí, la consulta básica funcionó
+    // Transformamos la respuesta para asegurar que es serializable
+    const sanitizedPosts = posts.map((post) => {
+      const plainPost = post.get({ plain: true });
+      return {
+        ...plainPost,
+        tags: plainPost.tags || [],
+        post_images: plainPost.post_images || [],
+        comment: plainPost.comment || [],
+      };
+    });
+
     res.status(200).json({
       success: true,
       count: posts.length,
-      data: posts,
+      data: sanitizedPosts,
     });
   } catch (error) {
     console.error("Error al obtener posts:", {
