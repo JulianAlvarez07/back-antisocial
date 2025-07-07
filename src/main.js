@@ -32,7 +32,20 @@ app.use("/tags", tagRoute);
 app.use("/comment-tags", commentTagRoute);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server corriendo en el puerto: ${PORT}`);
-  // db.sequelize.sync({ force: true }); // Comentado para no resetear la base de datos
+// Función para inicializar la base de datos
+const initializeDatabase = async () => {
+  try {
+    // Sincronizar los modelos con la base de datos
+    await db.sequelize.sync({ force: true }); // Esto creará las tablas
+    console.log("Base de datos inicializada correctamente");
+  } catch (error) {
+    console.error("Error al inicializar la base de datos:", error);
+  }
+};
+
+// Iniciar el servidor solo después de inicializar la base de datos
+initializeDatabase().then(() => {
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server corriendo en el puerto: ${PORT}`);
+  });
 });
