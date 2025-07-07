@@ -34,5 +34,5 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server corriendo en el puerto: ${PORT}`);
-  // db.sequelize.sync({ force: true });
+  // db.sequelize.sync({ force: true }); // Comentado para no resetear la base de datos
 });
