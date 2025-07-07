@@ -1,39 +1,37 @@
 const { Post, Post_Images, Comment, Tag, User } = require("../db/models");
 const { message } = require("../schemas/user.schema");
+
 const getPost = async (req, res) => {
-  res.status(200).json(
-    await Post.findAll({
-      include: [
-        {
-          model: User,
-          as: "user",
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-        },
-        {
-          model: Post_Images,
-          as: "post_images",
-        },
-        {
-          model: Tag,
-          as: "tags",
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-          through: {
-            attributes: ["postId", "tagId"],
-          },
-        },
-        {
-          model: Comment,
-          as: "comment",
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-          include: {
-            model: User,
-            as: "user",
-            attributes: ["nombre", "nickname"],
-          },
-        },
-      ],
-    })
-  );
+  try {
+    console.log("Iniciando búsqueda de posts...");
+
+    // Primero intentamos obtener solo los posts sin relaciones
+    const posts = await Post.findAll({
+      attributes: ["id", "fecha", "contenido", "userId"],
+    });
+
+    console.log("Posts encontrados (sin relaciones):", posts.length);
+
+    // Si llegamos aquí, la consulta básica funcionó
+    res.status(200).json({
+      success: true,
+      count: posts.length,
+      data: posts,
+    });
+  } catch (error) {
+    console.error("Error al obtener posts:", {
+      message: error.message,
+      name: error.name,
+      stack: error.stack,
+    });
+
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener los posts",
+      error: error.message,
+      errorType: error.name,
+    });
+  }
 };
 
 const getPostById = async (req, res) => {
