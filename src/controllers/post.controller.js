@@ -11,17 +11,16 @@ const getPost = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id", "nombre", "nickName", "email"], // Corregido: nickName en lugar de nickname
+          attributes: { exclude: ["createdAt", "updatedAt"] },
         },
         {
           model: Post_Images,
           as: "post_images",
-          attributes: ["id", "url"],
         },
         {
           model: Tag,
           as: "tags",
-          attributes: ["id", "nombreEtiqueta"], // Corregido: nombreEtiqueta es el nombre correcto
+          attributes: { exclude: ["createdAt", "updatedAt"] },
           through: {
             attributes: ["postId", "tagId"],
           },
@@ -29,17 +28,11 @@ const getPost = async (req, res) => {
         {
           model: Comment,
           as: "comment",
-          attributes: [
-            "id",
-            "comentario",
-            "fecha",
-            "userIdComment",
-            "postIdComment",
-          ], // Agregados los IDs correctos
+          attributes: { exclude: ["createdAt", "updatedAt"] },
           include: {
             model: User,
             as: "user",
-            attributes: ["id", "nombre", "nickName", "email"], // Corregido: nickName
+            attributes: ["nombre", "nickname"], // Corregido: nickName
           },
         },
       ],
@@ -48,22 +41,7 @@ const getPost = async (req, res) => {
 
     console.log(`Posts encontrados: ${posts.length}`);
 
-    // Transformamos la respuesta para asegurar que es serializable
-    const sanitizedPosts = posts.map((post) => {
-      const plainPost = post.get({ plain: true });
-      return {
-        ...plainPost,
-        tags: plainPost.tags || [],
-        post_images: plainPost.post_images || [],
-        comment: plainPost.comment || [],
-      };
-    });
-
-    res.status(200).json({
-      success: true,
-      count: posts.length,
-      data: sanitizedPosts,
-    });
+    res.status(200).json(posts);
   } catch (error) {
     console.error("Error al obtener posts:", {
       message: error.message,
