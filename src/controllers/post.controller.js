@@ -59,37 +59,70 @@ const getPost = async (req, res) => {
 };
 
 const getPostById = async (req, res) => {
-  const { id } = req.params;
-  const post = await Post.findOne({
-    where: {
-      id: id,
-    },
-    include: [
-      {
-        model: Post_Images,
-        as: "post_images",
+  try {
+    const { id } = req.params;
+    console.log(`Iniciando búsqueda del post con ID: ${id}...`);
+
+    const post = await Post.findOne({
+      where: {
+        id: id,
       },
-      {
-        model: Tag,
-        as: "tags",
-        attributes: { exclude: ["createdAt", "updatedAt"] },
-        through: {
-          attributes: ["postId", "tagId"],
-        },
-      },
-      {
-        model: Comment,
-        as: "comment",
-        attributes: { exclude: ["createdAt", "updatedAt"] },
-        include: {
+      attributes: ["id", "fecha", "contenido", "userId"],
+      include: [
+        {
           model: User,
           as: "user",
-          attributes: ["nombre", "nickname"],
+          attributes: { exclude: ["createdAt", "updatedAt"] },
         },
-      },
-    ],
-  });
-  res.status(200).json(post);
+        {
+          model: Post_Images,
+          as: "post_images",
+        },
+        {
+          model: Tag,
+          as: "tags",
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+          through: {
+            attributes: ["postId", "tagId"],
+          },
+        },
+        {
+          model: Comment,
+          as: "comment",
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+          include: {
+            model: User,
+            as: "user",
+            attributes: ["nombre", "nickName"],
+          },
+        },
+      ],
+    });
+
+    console.log(`Post ${post ? "encontrado" : "no encontrado"} para ID: ${id}`);
+
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: `No se encontró el post con ID: ${id}`,
+      });
+    }
+
+    res.status(200).json(post);
+  } catch (error) {
+    console.error("Error al obtener post por ID:", {
+      message: error.message,
+      name: error.name,
+      stack: error.stack,
+    });
+
+    res.status(500).json({
+      success: false,
+      message: "Error al obtener el post",
+      error: error.message,
+      errorType: error.name,
+    });
+  }
 };
 
 const createPost = async (req, res) => {
