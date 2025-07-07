@@ -35,8 +35,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Función para inicializar la base de datos
 const initializeDatabase = async () => {
   try {
-    // Sincronizar los modelos con la base de datos
-    await db.sequelize.sync({ force: false }); // Cambiado a false para mantener los datos
+    await db.sequelize.sync({ force: true }); // Forzar una última sincronización
     console.log("Base de datos inicializada correctamente");
   } catch (error) {
     console.error("Error al inicializar la base de datos:", error);

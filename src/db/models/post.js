@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
           allowNull: false,
         },
-
         as: "user",
       });
       Post.hasMany(models.Post_Images, {
@@ -41,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Post.init(
     {
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       fecha: {
         type: DataTypes.DATEONLY,
         allowNull: false,
@@ -54,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Post",
-      timestamps: false,
+      timestamps: true,
     }
   );
   return Post;
