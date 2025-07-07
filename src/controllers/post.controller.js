@@ -32,7 +32,7 @@ const getPost = async (req, res) => {
           include: {
             model: User,
             as: "user",
-            attributes: ["nombre", "nickname"], // Corregido: nickName
+            attributes: ["nombre", "nickName"], // Corregido: nickName
           },
         },
       ],
