@@ -1,5 +1,5 @@
-"use strict"
-const { Model } = require("sequelize")
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**
@@ -15,28 +15,28 @@ module.exports = (sequelize, DataTypes) => {
         },
 
         as: "user",
-      })
+      });
       Post.hasMany(models.Post_Images, {
         foreignKey: {
           name: "postId",
           allowNull: false,
         },
         as: "post_images",
-      })
+      });
       Post.hasMany(models.Comment, {
         foreignKey: {
           name: "postIdComment",
           allowNull: false,
         },
         as: "comment",
-      })
+      });
 
       Post.belongsToMany(models.Tag, {
         through: "PostTags",
         foreignKey: "postId",
         timestamp: false,
         as: "tags",
-      })
+      });
     }
   }
   Post.init(
@@ -56,6 +56,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Post",
       timestamps: false,
     }
-  )
-  return Post
-}
+  );
+  return Post;
+};
